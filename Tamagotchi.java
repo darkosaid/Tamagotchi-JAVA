@@ -10,57 +10,44 @@ public class Tamagotchi {
 	
 	private String name; //Name des Tamagotchi
 	private int fullStomach; //Definiert wie satt das Tamagotchi ist
-	private int feeling; //
-	private boolean isAlive;
-	private int playedRounds;
-	private int dirtiness;
+	private int feeling; //Definiert wie glücklich das Tamagotchi ist
+	private boolean isAlive; //Definiert ob das Tamagotchi lebt
+	private int playedRounds; //Definiert wie viele runden gespielt wurden
+	private int dirtiness; //Definiert wie Sauber/schmutzig das Tamagotchi ist
 	
 
 		
 
 	
-	public Tamagotchi(String name) {
+	public Tamagotchi(String name) { //Konstrukter mit Übergabeparameter 
 		this.name = name;
-		this.fullStomach = 50;
-		this.feeling = 50;
-		this.isAlive = true;
-		this.playedRounds = 0;
-		this.dirtiness = 50;
+		this.fullStomach = 50; //Satt-Wert am anfang des spiels
+		this.feeling = 50; //Gefühls-Wert am anfang des spiels
+		this.isAlive = true; //Lebt-Wert am anfang des spiels
+		this.playedRounds = 0; //Runden-Wert am anfang des spiels
+		this.dirtiness = 50; //Sauber/Schmutzig-Wert am anfang des spiels
 		
 		
 	}
-	
-	public void feelingsIndicator() {
-		checkHealthStatus();
-		if (this.feeling <= 25)	{
-			checkHealthStatus();
-			
-		} else if (this.feeling >= 75) {
-			checkHealthStatus();
-			
-		}
+		
+	public void resetGame() { //Methode zum zurücksetzen 
+		this.playedRounds = 0; //Setzt den Wert wieder auf 0
+		this.feeling = 50; //Setzt den Wert wieder auf 50 #
+		this.fullStomach = 50; // #
+		this.dirtiness = 50; // #
+		System.out.println(playedRounds + feeling + fullStomach + dirtiness);
 		
 	}
 	
-	
-	public void resetGame() {
-		this.playedRounds = 0;
-		this.feeling = 50;
-		this.fullStomach = 50;
-		this.dirtiness = 50;
-		System.out.println(playedRounds + feeling + fullStomach);
-		
-	}
-	
-	public void showerTamagotchi() { 
-		checkHealthStatus();
-		this.dirtiness += 5;
-		playedRounds ++;
-		System.out.println(this.name + " hat jetzt geduscht");
-		if (this.dirtiness > 100 ) {
-			checkHealthStatus();
-		} else if  (this.dirtiness < 0) {
-			checkHealthStatus();
+	public void showerTamagotchi() { //Methode zum Duschen des Tamagotchi
+		checkHealthStatus(); //ruft checkHealthStatus methode auf
+		this.dirtiness += 5; // Addiert 5 auf den davor definierten Wert
+		playedRounds ++; // Addiert eine runde auf den davor definierten wert 
+		System.out.println(name + " hat jetzt geduscht"); // Gibt einen Text aus 
+		if (this.dirtiness > 100 ) { //überprüft ob der Wert über 100 ist
+			checkHealthStatus(); //falls wert über 100 ist soll methode ausgeführt werden #
+		} if  (this.dirtiness < 0) { //überprüft ob wert unter 0 ist 
+			checkHealthStatus(); // # unter
 		}
 		
 		checkHealthStatus();
@@ -70,37 +57,37 @@ public class Tamagotchi {
 	
 	
 	
-	public void giveFood() { 
-		checkHealthStatus();
-			this.fullStomach += 8;
-			checkHealthStatus();//Addiert 8 und sepichert den Wert danach
+	public void giveFood() { //Methode um Tamagotchi essen zu geben 
+		checkHealthStatus(); //führt methode checkHealthStatus aus #
+			this.fullStomach += 8;//Addiert 8 und sepichert den Wert danach
+			checkHealthStatus(); // #
 			System.out.println( this.name + " wurde gefüttert");
 			if (this.fullStomach > 100) { //Überprüft ob fullStomach größer als 100 ist
-				checkHealthStatus(); //Führt Methode checkHealthStatus aus
+				checkHealthStatus(); // #
 		}
-			playedRounds ++;
-			System.out.println("Runde " + playedRounds + " gespielt");
-			checkHealthStatus();
+			playedRounds ++; //addiert eine runde auf den davor definierten wert 
+			System.out.println("Runde " + playedRounds + " gespielt"); //gibt einen text aus
+			checkHealthStatus();// #
 			
 		
 	}
 	
-	public void playWithTamagotchi() {
-		checkHealthStatus();
-		this.feeling += 3;
-		System.out.println(this.name + " hat gespielt");
-		if (this.feeling > 100) {
-			checkHealthStatus();
-		} else if  (this.feeling < 0)
-			checkHealthStatus();
+	public void playWithTamagotchi() { //methode um mit tamagotchi zu spielen 
+		checkHealthStatus(); //führt methode checkHealthStatus aus // #
+		this.feeling += 3; //fügt feeling +3 hinzu und speichert den wert
+		System.out.println(this.name + " hat gespielt"); //gibt einen text aus
+		if (this.feeling > 100) { //überprüft ob feeling größer als 100 ist
+			checkHealthStatus(); // #
+		} else if  (this.feeling < 0) //überprüft ob feeling kleiner als 100
+			checkHealthStatus(); // # 
 		
-		playedRounds ++;
-		checkHealthStatus();
+		playedRounds ++; // fügt playedRounds eine runde hinzu
+		checkHealthStatus(); // # 
 		}
 	
 
-	public void checkHealthStatus() { 
-		if (this.fullStomach > 100) {
+	public void checkHealthStatus() { //methode um stats vom tamagotchi zu überprüfen und jenachdem zu agieren 
+		if (this.fullStomach > 100) { 
 			handleOvereating();
 		} else if  (this.fullStomach < 1) {
 			handleStarvation();
@@ -129,6 +116,7 @@ public class Tamagotchi {
 		System.out.println("Das Spiel wird jetzt zurückgesetzt");
 		resetGame();
 	}
+	
 	
 	public void handleShowerDirtyDeath() { 
 		System.out.println("Du hättest " + this.name + " öfter sauber machen sollen, der arme ist an seinem eigenen Geruch erstickt:C");
@@ -170,10 +158,10 @@ public class Tamagotchi {
 	    }
 	 
 	 
-	public void reducingStats() {
+	public void reducingStats() { //methode um stats zu reduzieren
 	
 		
-		if (playedRounds % 3 == 0) {
+		if (playedRounds % 3 == 0) { //überprüft ob rundenanzahl teilbar durch 3 ist, wenn wahr werden werte reduziert
 			fullStomach -= 10;
 			feeling -= 7;
 			dirtiness -= 5;
@@ -193,7 +181,7 @@ public class Tamagotchi {
 				
 		}
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) { //ausführbarer code
 	    Scanner scanner = new Scanner(System.in);
 	    System.out.println("Das sind die Spielregeln: Du kannst deinen Tamagotchi Essen geben oder mit ihm Spielen.Sowie auch den Status anzeigen");
 	    System.out.println("Wählst du eine von den ersten beiden wird den Werten `+8´ hinzugefügt und die nächste Runde wird gestartet");
