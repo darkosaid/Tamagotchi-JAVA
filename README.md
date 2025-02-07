@@ -1,1 +1,1 @@
-# Tamagotchi
+# Tamagotchi JAVA
