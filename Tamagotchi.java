@@ -14,7 +14,12 @@ public class Tamagotchi {
 	private boolean isAlive; //Definiert ob das Tamagotchi lebt
 	private int playedRounds; //Definiert wie viele runden gespielt wurden
 	private int dirtiness; //Definiert wie Sauber/schmutzig das Tamagotchi ist
-	
+	private int poop;
+    static String rot = "\u001B[31m";
+    static String grün = "\u001B[32m";
+    static String gelb = "\u001B[33m";
+    static String cyan = "\u001B[36m";
+    static String reset = "\u001B[0m"; 
 
 		
 
@@ -30,12 +35,12 @@ public class Tamagotchi {
 		
 	}
 		
-	public void resetGame() { //Methode zum zurücksetzen 
+	public void resetGame() { //Methode zum zurücksetzen der runden auf 1 
 		this.playedRounds = 0; //Setzt den Wert wieder auf 0
 		this.feeling = 50; //Setzt den Wert wieder auf 50 #
 		this.fullStomach = 50; // #
 		this.dirtiness = 50; // #
-		System.out.println(playedRounds + feeling + fullStomach + dirtiness);
+		System.out.println(gelb + playedRounds + feeling + fullStomach + dirtiness + reset);
 		
 	}
 	
@@ -43,7 +48,7 @@ public class Tamagotchi {
 		checkHealthStatus(); //ruft checkHealthStatus methode auf
 		this.dirtiness += 5; // Addiert 5 auf den davor definierten Wert
 		playedRounds ++; // Addiert eine runde auf den davor definierten wert 
-		System.out.println(name + " hat jetzt geduscht"); // Gibt einen Text aus 
+		System.out.println(cyan + this.name + reset + grün +  " hat jetzt geduscht" + reset); // Gibt einen Text aus 
 		if (this.dirtiness > 100 ) { //überprüft ob der Wert über 100 ist
 			checkHealthStatus(); //falls wert über 100 ist soll methode ausgeführt werden #
 		} if  (this.dirtiness < 0) { //überprüft ob wert unter 0 ist 
@@ -53,6 +58,15 @@ public class Tamagotchi {
 		checkHealthStatus();
 	}
 	
+	public void toiletTamagotchi() {
+	   checkHealthStatus();
+	   this.poop -= 4;
+	   checkHealthStatus();
+	   playedRounds ++;
+	   System.out.println(cyan + this.name + reset + grün + " ist auf die Toilette gegangen" + reset);
+	   checkHealthStatus();
+	
+	}
 		
 	
 	
@@ -61,12 +75,12 @@ public class Tamagotchi {
 		checkHealthStatus(); //führt methode checkHealthStatus aus #
 			this.fullStomach += 8;//Addiert 8 und sepichert den Wert danach
 			checkHealthStatus(); // #
-			System.out.println( this.name + " wurde gefüttert");
+			System.out.println(cyan + this.name + reset + grün + " wurde gefüttert" + reset);
 			if (this.fullStomach > 100) { //Überprüft ob fullStomach größer als 100 ist
 				checkHealthStatus(); // #
 		}
 			playedRounds ++; //addiert eine runde auf den davor definierten wert 
-			System.out.println("Runde " + playedRounds + " gespielt"); //gibt einen text aus
+			System.out.println(grün + "Runde " + playedRounds + " gespielt" + reset); //gibt einen text aus
 			checkHealthStatus();// #
 			
 		
@@ -75,7 +89,7 @@ public class Tamagotchi {
 	public void playWithTamagotchi() { //methode um mit tamagotchi zu spielen 
 		checkHealthStatus(); //führt methode checkHealthStatus aus // #
 		this.feeling += 3; //fügt feeling +3 hinzu und speichert den wert
-		System.out.println(this.name + " hat gespielt"); //gibt einen text aus
+		System.out.println(cyan + this.name + reset + grün + " hat gespielt" + reset); //gibt einen text aus
 		if (this.feeling > 100) { //überprüft ob feeling größer als 100 ist
 			checkHealthStatus(); // #
 		} else if  (this.feeling < 0) //überprüft ob feeling kleiner als 100
@@ -104,49 +118,67 @@ public class Tamagotchi {
 			
 		}
 		if (this.feeling <= 25) {
-			System.out.println(name + " wird traurig, denk daran mit Ihm/Sie zu spielen, sonst stirbt es >:( ");
+			System.out.println(cyan + this.name + reset + gelb + " wird traurig, denk daran mit" + reset + cyan + this.name + gelb + " zu spielen, sonst stirbt es >:( " + reset);
 		} else if (this.feeling >= 75) {
-			System.out.println("Willst du das " + name + "dir abkratzt?" + name + "Stirbt bald an einem Lungenkolapps :(");
+			System.out.println(gelb + "Willst du das " + reset + cyan + this.name + reset + gelb + "dir abkratzt?" + cyan + this.name + reset + gelb + "Stirbt bald an einem Lungenkolapps :(" + reset);
 		}
+		if (this.poop > 100) {
+			handleDeathCauseFullPoop();
+		} else if (this.poop < 0) {
+			handleDeathCauseNoPoop();
+		}
+	}
 		
+	public void handleDeathCauseFullPoop() {
+		System.out.println(cyan + this.name + reset + rot + " ist geplatzt weil du es nicht auf Toiette gehen lassen hast"); 
+		System.out.println("Das Spiel wird zurückgesetzt" + reset);
+		resetGame();
 	}
 	
+	public void handleDeathCauseNoPoop() {
+		System.out.println(cyan + this.name + reset + rot + " ist gestorben weil du es gezwungen hast zu oft auf Toilette zu gehen");
+		System.out.println("Das Spiel wird zurückgesetzt" + reset);
+		resetGame();
+		
+	}
+		
+	
 	public void handleShowerCleanDeath() {
-		System.out.println("Du hast " + this.name + " so sauber gemacht das es seine/ihre Haut verätzt wurde :C");
-		System.out.println("Das Spiel wird jetzt zurückgesetzt");
+		System.out.println(rot + "Du hast " + reset + cyan + this.name + rot + " so sauber gemacht das es seine/ihre Haut verätzt wurde :C" + reset);
+		System.out.println(rot + "Das Spiel wird jetzt zurückgesetzt" + reset);
 		resetGame();
 	}
 	
 	
 	public void handleShowerDirtyDeath() { 
-		System.out.println("Du hättest " + this.name + " öfter sauber machen sollen, der arme ist an seinem eigenen Geruch erstickt:C");
-		System.out.println("Das Spiel wird jetzt zurückgesetzt");
+		System.out.println(rot + "Du hättest " + reset + cyan + this.name + reset + rot + " öfter sauber machen sollen, der arme ist an seinem eigenen Geruch erstickt:C" + reset);
+		System.out.println(rot + "Das Spiel wird jetzt zurückgesetzt" + reset);
 		resetGame();
 	}
 	
 	
 	public void handleOvereating() { 
-		System.out.println("Du hast deinen Tamagotchi zu viel Essen gegeben! Leider ist es geplatzt :C");
-		System.out.println("Das Spiel wird jetzt zurückgesetzt!");
+		System.out.println(rot + "Du hast " + reset + cyan + this.name + reset + rot +" zu viel Essen gegeben! Leider ist es geplatzt :C" + reset);
+		System.out.println(rot + "Das Spiel wird jetzt zurückgesetzt!" + reset);
 		resetGame();
 	}
 	
 	public void handleStarvation() { 
-		System.out.println("Du hast deinen Tamagotchi verhungern lassen, jetzt ist es tot");
-		System.out.println("Das Spiel wird jetzt zurückgesetzt");
+		System.out.println(rot + "Du hast " + reset + cyan + this.name + reset + rot + " verhungern lassen, jetzt ist es tot" + reset);
+		System.out.println(rot + "Das Spiel wird jetzt zurückgesetzt" + reset);
 		resetGame();
 	}
 	
 	public void handleExhausting() {
-		System.out.println("Du hast zu viel mit deinem Tamagotchi gespielt, es ist an Herzversagen gestorben :C");
-		System.out.println("Das Spiel wird jetzt zurückgesetzt");
+		System.out.println(rot + "Du hast zu viel mit " + reset + cyan + this.name + reset + rot + " gespielt, es ist an Herzversagen gestorben :C" + reset);
+		System.out.println(rot + "Das Spiel wird jetzt zurückgesetzt" + reset);
 		resetGame();
 		
 	}
 	
 	public void handleLoneliness() {
-		System.out.println("Du hast nichts mit deinem Tamagotchi unternommen, es ist an Einsamkeit gestorben");
-		System.out.println("Das Spiel wird jetzt zurückgesetzt");
+		System.out.println(rot + "Du hast nichts mit " + reset + cyan + this.name + reset + rot +" unternommen, es ist an Einsamkeit gestorben" + reset);
+		System.out.println(rot +"Das Spiel wird jetzt zurückgesetzt" + reset);
 		resetGame();
 		
 	}
@@ -165,9 +197,12 @@ public class Tamagotchi {
 			fullStomach -= 10;
 			feeling -= 7;
 			dirtiness -= 5;
+			poop -= 5;
 			
-			System.out.println("Nach Runde " + playedRounds + " wurde der Magen um 16 reduziert");
-			System.out.println("Nach Runde " + playedRounds + " wurde das Glück um 16 reduziert");
+			System.out.println("Nach Runde " + playedRounds + " wurde der Magen um 10 reduziert");
+			System.out.println("Nach Runde " + playedRounds + " wurde das Glück um 7 reduziert");
+			System.out.println("Nach Runde " + playedRounds + " wurde Sauberkeit um 5 reduziert");
+			System.out.println("Nach Runde " + playedRounds + " wurde Toilettenwert um 5 reduziert");
 			
 			
 		}
@@ -199,13 +234,14 @@ public class Tamagotchi {
 
 	   
 	    while (true) {
-	        System.out.println("\nWas möchtest du tun?");
-	        System.out.println("1. " + name + " füttern");
-	        System.out.println("2. Mit " + name + " spielen");
+	        System.out.println(gelb + "\nWas möchtest du tun?");
+	        System.out.println("1. " + reset + cyan +  name + reset + gelb + " füttern");
+	        System.out.println("2. Mit " + reset + cyan + name + reset + gelb + " spielen");
 	        System.out.println("3. Status anzeigen");
 	        System.out.println("4. Beenden");
 	        System.out.println("5. Konsole Leeren");
-	        System.out.println("6. " + name + " duschen");
+	        System.out.println("6. " + reset + cyan + name + reset + gelb + " duschen");
+	        System.out.println("7. Mit " + reset + cyan + name + reset + gelb + " auf die Toilette gehen" );
 	        int choice = scanner.nextInt();
 	        scanner.nextLine();  // Verhindert Probleme mit Eingaben, die nach nextInt() kommen.
 
@@ -220,7 +256,7 @@ public class Tamagotchi {
 	                myTamagotchi.getStatus();// Status anzeigen
 	                break;
 	            case 4:
-	                System.out.println("Spiel beendet."); //Beendet das Spiel, bzw lässt keine texteingabe mehr zu
+	                System.out.println(rot + "Spiel beendet." + reset); //Beendet das Spiel, bzw lässt keine texteingabe mehr zu
 	                return;
 	            case 5:
 	            	myTamagotchi.clearConsole();
@@ -228,8 +264,11 @@ public class Tamagotchi {
 	            case 6: 
 	            	myTamagotchi.showerTamagotchi();
 	            	break;
+	            case 7:
+	            	myTamagotchi.toiletTamagotchi();
+	            	break;
 	            default:
-	                System.out.println("Ungültige Wahl. Versuche es erneut.");
+	                System.out.println(rot + "Ungültige Wahl. Versuche es erneut." + reset);
 	                break;
 	        }
 
