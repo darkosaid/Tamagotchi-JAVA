@@ -1,7 +1,9 @@
-package tamagotchi;
-
+package tamagotchi_v2;
 
 import java.util.Scanner;
+import javax.swing.*;
+import java.awt.event.*;
+
 
 
 
@@ -11,7 +13,6 @@ public class Tamagotchi {
 	private String name; //Name des Tamagotchi
 	private int fullStomach; //Definiert wie satt das Tamagotchi ist
 	private int feeling; //Definiert wie glücklich das Tamagotchi ist
-	private boolean isAlive; //Definiert ob das Tamagotchi lebt
 	private int playedRounds; //Definiert wie viele runden gespielt wurden
 	private int dirtiness; //Definiert wie Sauber/schmutzig das Tamagotchi ist
 	private int poop;
@@ -28,9 +29,9 @@ public class Tamagotchi {
 		this.name = name;
 		this.fullStomach = 50; //Satt-Wert am anfang des spiels
 		this.feeling = 50; //Gefühls-Wert am anfang des spiels
-		this.isAlive = true; //Lebt-Wert am anfang des spiels
 		this.playedRounds = 0; //Runden-Wert am anfang des spiels
 		this.dirtiness = 50; //Sauber/Schmutzig-Wert am anfang des spiels
+		this.poop = 50;
 		
 		
 	}
@@ -96,6 +97,7 @@ public class Tamagotchi {
 			checkHealthStatus(); // # 
 		
 		playedRounds ++; // fügt playedRounds eine runde hinzu
+		System.out.println(grün + "Runde " + playedRounds + " gespielt" + reset);
 		checkHealthStatus(); // # 
 		}
 	
@@ -186,7 +188,7 @@ public class Tamagotchi {
 
 	
 	 public void getStatus() {
-	        System.out.println("Name: " + name + "\n" + "Magenfüllung: " + fullStomach + "\nGlücklich: " + feeling + "\n" + "Gespielte Runden: " + playedRounds + "\nSauberkeit: " + dirtiness);
+	        System.out.println("Name: " + name + "\n" + "Magenfüllung: " + fullStomach + "\nGlücklich: " + feeling + "\n" + "Gespielte Runden: " + playedRounds + "\nSauberkeit: " + dirtiness + "\nToilette: " + poop);
 	    }
 	 
 	 
@@ -203,6 +205,8 @@ public class Tamagotchi {
 			System.out.println("Nach Runde " + playedRounds + " wurde das Glück um 7 reduziert");
 			System.out.println("Nach Runde " + playedRounds + " wurde Sauberkeit um 5 reduziert");
 			System.out.println("Nach Runde " + playedRounds + " wurde Toilettenwert um 5 reduziert");
+			
+		} else  {  
 			
 			
 		}
@@ -237,45 +241,46 @@ public class Tamagotchi {
 	        System.out.println(gelb + "\nWas möchtest du tun?");
 	        System.out.println("1. " + reset + cyan +  name + reset + gelb + " füttern");
 	        System.out.println("2. Mit " + reset + cyan + name + reset + gelb + " spielen");
-	        System.out.println("3. Status anzeigen");
-	        System.out.println("4. Beenden");
-	        System.out.println("5. Konsole Leeren");
-	        System.out.println("6. " + reset + cyan + name + reset + gelb + " duschen");
-	        System.out.println("7. Mit " + reset + cyan + name + reset + gelb + " auf die Toilette gehen" );
+	        System.out.println("3. Mit " + reset + cyan + name + reset + gelb + " auf die Toilette gehen");
+	        System.out.println("4. " + reset + cyan + name + reset + gelb + " duschen");
+	        System.out.println("5. Status anzeigen");
+	        System.out.println("6. Konsole Leeren");
+	        System.out.println("7. Spiel beenden" + reset);//Beenden
 	        int choice = scanner.nextInt();
 	        scanner.nextLine();  // Verhindert Probleme mit Eingaben, die nach nextInt() kommen.
 
 	        switch (choice) {
 	            case 1:
-	                myTamagotchi.giveFood(); // Tamagotchi füttern
+	                myTamagotchi.giveFood();
+	                myTamagotchi.reducingStats();// Tamagotchi füttern
 	                break;
 	            case 2:
-	                myTamagotchi.playWithTamagotchi(); // Mit Tamagotchi spielen
+	                myTamagotchi.playWithTamagotchi();
+	                myTamagotchi.reducingStats();// Mit Tamagotchi spielen
 	                break;
 	            case 3:
-	                myTamagotchi.getStatus();// Status anzeigen
+	                myTamagotchi.toiletTamagotchi();// Status anzeigen
+	                myTamagotchi.reducingStats();
 	                break;
 	            case 4:
-	                System.out.println(rot + "Spiel beendet." + reset); //Beendet das Spiel, bzw lässt keine texteingabe mehr zu
-	                return;
+	            	myTamagotchi.showerTamagotchi();
+	            	myTamagotchi.reducingStats();
+	            	break;
 	            case 5:
-	            	myTamagotchi.clearConsole();
+	            	myTamagotchi.getStatus();
 	            	break;
 	            case 6: 
-	            	myTamagotchi.showerTamagotchi();
+	            	myTamagotchi.clearConsole();
 	            	break;
 	            case 7:
-	            	myTamagotchi.toiletTamagotchi();
-	            	break;
+	            	System.out.println(rot + "Spiel beendet." + reset);
+	            	return;
 	            default:
 	                System.out.println(rot + "Ungültige Wahl. Versuche es erneut." + reset);
 	                break;
-	        }
-
-	        // Nach jeder Runde prüfen, ob der Hunger und Gefühl reduziert werden müssen
-	        myTamagotchi.reducingStats();
-	    }
+	        }     
 	}
+}
 }
 	
 	
@@ -288,5 +293,4 @@ public class Tamagotchi {
 	
 	
 	
-
 
